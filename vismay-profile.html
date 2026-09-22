@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vismay Rao BN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --ink: #0B0F14;
+    --surface: #131A22;
+    --surface-2: #1B242F;
+    --line: #2A3541;
+    --text: #E9EEF2;
+    --text-dim: #93A1AD;
+    --teal: #5FE3C4;
+    --amber: #F2A34D;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --ink: #F3F1EA;
+      --surface: #FFFFFF;
+      --surface-2: #FBF9F3;
+      --line: #DDD7C8;
+      --text: #16201C;
+      --text-dim: #5B665F;
+      --teal: #0E8E75;
+      --amber: #B96A1E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #0B0F14;
+    --surface: #131A22;
+    --surface-2: #1B242F;
+    --line: #2A3541;
+    --text: #E9EEF2;
+    --text-dim: #93A1AD;
+    --teal: #5FE3C4;
+    --amber: #F2A34D;
+  }
+
+  html {
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    height: 100%;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--ink);
+    color: var(--text);
+    font-family: "Space Grotesk", -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 48px;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 460px;
+    padding-top: max(40px, env(safe-area-inset-top, 0px));
+  }
+
+  /* --- circuit trace header --- */
+  .trace-wrap {
+    position: relative;
+    width: 100%;
+    height: 92px;
+    margin-bottom: 6px;
+  }
+  .trace-wrap svg { width: 100%; height: 100%; display: block; }
+  .trace-line {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.5;
+  }
+  .trace-node {
+    fill: var(--ink);
+    stroke: var(--teal);
+    stroke-width: 1.5;
+  }
+  .trace-node.filled { fill: var(--teal); stroke: none; }
+
+  header {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .name {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+    margin: 0 0 10px;
+  }
+
+  .role {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    margin: 0;
+    max-width: 40ch;
+  }
+
+  .role strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: var(--teal);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 4px 8px;
+    background: var(--surface);
+  }
+
+  /* --- links --- */
+  .section-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: 0 0 12px;
+  }
+
+  nav.links {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .linkrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    transition: padding-left 0.18s ease, background 0.18s ease;
+  }
+  .linkrow:hover, .linkrow:focus-visible {
+    padding-left: 12px;
+    background: var(--surface);
+    outline: none;
+  }
+  .linkrow:focus-visible {
+    box-shadow: inset 2px 0 0 var(--teal);
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    color: var(--teal);
+  }
+  .icon svg { width: 100%; height: 100%; }
+
+  .linktext { flex: 1; min-width: 0; }
+  .linktitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 2px;
+  }
+  .linkmeta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .id {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    flex: none;
+  }
+
+  /* --- builds --- */
+  .builds {
+    margin-top: 34px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .builds p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text-dim);
+    margin: 0;
+  }
+  .builds p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  footer {
+    margin-top: 36px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .linkrow { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="trace-wrap" aria-hidden="true">
+    <svg viewBox="0 0 460 92" preserveAspectRatio="none">
+      <path class="trace-line" d="M0 70 H120 L140 50 H260 L280 70 H460" />
+      <path class="trace-line" d="M40 92 V60 L60 40 H180" />
+      <path class="trace-line" d="M340 20 V45 L360 65 H460" />
+      <circle class="trace-node filled" cx="140" cy="50" r="4" />
+      <circle class="trace-node" cx="280" cy="70" r="4" />
+      <circle class="trace-node filled" cx="60" cy="40" r="3.5" />
+      <circle class="trace-node" cx="360" cy="65" r="3.5" />
+    </svg>
+  </div>
+
+  <header>
+    <h1 class="name">Vismay Rao BN</h1>
+    <p class="role">Lead Instructor at <strong>Gyaankool Research Labs</strong> — AI/ML, Generative AI &amp; embedded systems. MCA student.</p>
+    <div class="tag-row">
+      <span class="tag">generative ai</span>
+      <span class="tag">embedded systems</span>
+      <span class="tag">computer vision</span>
+    </div>
+  </header>
+
+  <p class="section-label">Find me</p>
+  <nav class="links">
+
+    <a class="linkrow" href="https://github.com/VISMAY2005" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.66.5 12.03c0 5.1 3.29 9.42 7.86 10.95.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.87-1.55-3.87-1.55-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.78 2.71 1.26 3.37.97.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.8 0c2.2-1.5 3.17-1.18 3.17-1.18.64 1.6.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .31.21.67.8.56A10.53 10.53 0 0 0 23.5 12.03C23.5 5.66 18.35.5 12 .5Z"/></svg>
+      </span>
+      <span class="linktext">
+        <p class="linktitle">GitHub</p>
+        <p class="linkmeta">github.com/VISMAY2005</p>
+      </span>
+      <span class="id mono">git</span>
+    </a>
+
+    <a class="linkrow" href="https://www.linkedin.com/in/vismay-rao-bn-22ba78376/" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+      </span>
+      <span class="linktext">
+        <p class="linktitle">LinkedIn</p>
+        <p class="linkmeta">Vismay Rao BN</p>
+      </span>
+      <span class="id mono">in</span>
+    </a>
+
+    <a class="linkrow" href="https://gyaankoolresearchlabs.com/" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>
+      </span>
+      <span class="linktext">
+        <p class="linktitle">Gyaankool Research Labs</p>
+        <p class="linkmeta">gyaankoolresearchlabs.com</p>
+      </span>
+      <span class="id mono">web</span>
+    </a>
+
+  </nav>
+
+  <div class="builds">
+    <p>I teach practical AI — machine learning, Generative AI, LLMs, and agentic workflows — through live, code-first sessions. Outside class I build embedded systems and computer-vision projects, turning ideas into working hardware and software.</p>
+  </div>
+
+  <footer>
+    <span>Bengaluru, India</span>
+  </footer>
+
+</div>
+</body>
+</html>
